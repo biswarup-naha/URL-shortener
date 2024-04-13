@@ -1,0 +1,15 @@
+URL shortener
+
+Design a URL shortener that takes in a valid URL &
+returns a shortened URL, redirecting the user to the 
+previously provided URL.
+
+Also, keep trak of total visits/clicks on the URL.
+
+Routes:
+1. POST/URL - generates a new short URL and returns the 
+shortened URL in the format example.com/random-id
+2. GET/:id - redirects the user to the original URL.
+3. GET/URL/analytics/:id - returns the click for the provided
+short id.
+ 
