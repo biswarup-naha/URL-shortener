@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>URL-Shortener</h1>
+
+    <% if (locals.id) { %>
+     <p>URL generated: <a href="http://localhost:5000/url/<%= id %>"</a> http://shortURL/<%= id %> </a></p> 
+    <% } %>
+
+    <div>
+        <form method="POST" action="/url">
+            <label>Enter your original URL</label>
+            <input type="text" name="url" placeholder="https://example.com">
+            <button type="submit">Generate</button>
+        </form>
+    </div>
+
+    <br><br>
+
+    <div>
+        <% if (locals.urls) { %>
+         <table>
+            <thead>
+                <th>S. no</th>
+                <th>Shortened URL</th>
+                <th>Original URL</th>
+                <th>Clicks</th>
+            </thead>
+            <tbody>
+                <% urls.forEach((url,index) => { %>
+                 <tr></tr>
+                 <td><%=index+1%></td>
+                 <td><a href="http://localhost:5000/url/<%= url.shortId %>">http://shortURL/<%= url.shortId %></a> </td>
+                 <td><a href="<%= url.redirectUrl %>"><%= url.redirectUrl %></a></td>
+                 <td><%= url.visitHistory.length %></td>
+                <% }) %>
+            </tbody>
+         </table>
+        <% } %>
+    </div>
+
+</body>
+</html>

@@ -23,9 +23,11 @@ async function generateShortUrl(req,res){
        shortId: sid,
        redirectUrl: body.url,
        visitHistory: [],
+       createdBy: req.user._id
     })
 
-    return res.json({id: sid})
+    return res.render("home",{id: sid})
+    // return res.json({id: sid})
 }
 
 module.exports={

@@ -1,13 +1,22 @@
 const express=require('express')
-const urlRoutes=require('./routes/urls.routes')
 const connectDb= require('./connection')
 const Url=require('./models/urls.model')
+const path=require('path');
+
+const staticRoutes=require('./routes/static.routes')
+const urlRoutes=require('./routes/urls.routes')
+const userRoutes=require('./routes/user.routes');
+const cookieParser = require('cookie-parser');
+const {restrictToLoggedInUserOnly, checkAuth}=require('./middleware/auth.middleware')
 
 PORT=5000
 const app=express()
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded( { extended : false } ))
+app.set("view engine","ejs")
+app.set("views",path.resolve("./views"))
 
 
 
@@ -17,22 +26,11 @@ connectDb('mongodb://127.0.0.1:27017/short-url')
 .catch((err)=> console.error("Error connecting to MongoDB", err));
 
 //Routes
-app.use("/url",urlRoutes)
-app.get('/:shortId', async (req,res)=>{
-    const shortId=req.params.shortId;
-    const entry=await Url.findOneAndUpdate({
-        shortId
-    },{$push:{
-        visitHistory: {
-            timestamp: Date.now()
-        }
-    }})
-    // console.log(entry.redirectUrl)
-    res.redirect(entry.redirectUrl);
-})
-
+app.use("/url",restrictToLoggedInUserOnly,urlRoutes)
+app.use("/",checkAuth,staticRoutes)
+app.use("/user",userRoutes)
 
 //Run server
 app.listen(PORT,()=>{
-    console.log(`server is live at ${PORT}`)
+    console.log(`server is live at http://localhost:${PORT}`)
 })
