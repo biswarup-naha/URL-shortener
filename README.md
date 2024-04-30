@@ -1,6 +1,6 @@
 # URL Shortener Project
 
-This is a simple URL shortener project built with Express.js and MongoDB. It allows users to shorten long URLs into shorter, more manageable links.
+This is a simple URL shortener project built with Express.js and MongoDB. It allows users to shorten long URLs into shorter, more manageable links. Users are provided with a stateful authentication system, but if they reload the page then they will be logged out and also their session cookie has to be cleared manually.
 
 ## Installation
 
